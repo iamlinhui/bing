@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:replace="head :: head"/>
+    <title th:text="${imageDO.info}"></title>
+</head>
+<body th:inline="text">
+<div class="container-fluid">
+    <div class="page-header" style="padding: 10px">
+        <h1>
+            <a th:href="@{/}" style="text-decoration:none;color: #0C8484;">
+                <span>必应壁纸</span>
+            </a>
+        </h1>
+    </div>
+    <img th:title="${imageDO.info}" th:src="${'http://image.promptness.cn/'+imageDO.name}" style="text-align: center;cursor:pointer;">
+</div>
+
+
+</body>
+</html>

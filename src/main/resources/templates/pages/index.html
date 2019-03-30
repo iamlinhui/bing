@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:replace="head :: head"/>
+    <title>必应高清壁纸 - 每天自动更新</title>
+</head>
+<body th:inline="text">
+<div class="container-fluid">
+    <div class="page-header" style="padding: 10px">
+        <h1>
+            <a th:href="@{/}" style="text-decoration:none;color: #0C8484;">
+                <span>必应壁纸</span>
+            </a>
+        </h1>
+    </div>
+    <div class="list-group">
+        <div class="row">
+            <div class="card text-white col-sm-6 col-md-4" th:each="image : ${pageInfo.list}" th:data="${image.id}" style="padding-right: 0;padding-left: 0;cursor:pointer;">
+                <img th:src="${'http://image.promptness.cn/'+image.name}" class="card-img">
+                <div class="card-img-overlay" style="display: none">
+                    <p th:text="${image.info}" class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:with="targetUrl=@{/images/}" th:include="pagebar::navigation" style="padding-top: 15px"></div>
+    <div style="text-align: center">
+        <h5>
+            <span>本站点所有图片均来自
+                <a style="text-decoration:none;" href="https://www.bing.com/">必应搜索</a>
+            </span>
+        </h5>
+        <h4>
+            <span style="font-style: oblique;font-family: 楷体,serif;">
+                <a style="text-decoration:none;" href="#">林省之</a>Copyright &copy;2019
+            </span>
+        </h4>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+        $(".card").click(function () {
+            var url = $(this).attr("data");
+            window.location.href = "/image/"+ url;
+        });
+
+        $(".card").mouseenter(function () {
+            $(this).children(".card-img-overlay").show();
+
+        });
+        $(".card").mouseleave(function () {
+            $(this).children(".card-img-overlay").hide();
+        });
+    });
+</script>
+</html>

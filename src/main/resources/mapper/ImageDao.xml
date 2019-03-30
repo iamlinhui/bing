@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.promptness.bing.dao.ImageDao">
+    <insert id="saveImage">
+        INSERT INTO tb_image (`name`,info) VALUES (#{name},#{info})
+    </insert>
+    <delete id="deleteImageById">
+        DELETE FROM tb_image WHERE id = #{id}
+    </delete>
+    <select id="getImageById" resultType="cn.promptness.bing.pojo.ImageDO">
+        SELECT id,`name`,info from tb_image where id = #{id}
+    </select>
+    <select id="listImage" resultType="cn.promptness.bing.pojo.ImageDO">
+        SELECT id,`name`,info from tb_image GROUP BY `name` DESC
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(1) from tb_image WHERE `name` like concat(#{name}, '%')
+    </select>
+</mapper>
