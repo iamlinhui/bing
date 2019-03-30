@@ -1,3 +1,4 @@
+apr: true
 server:
   port: 8321
 
@@ -36,4 +37,14 @@ logging:
   path: /logs/bing/
   file: sout.log
 
-apr: true
+bing:
+  image-host: http://image.promptness.cn/
+  image-param: ?imageMogr2/format/webp/interlace/1/blur/1x0/quality/50|imageslim
+  bing-host: https://www.bing.com
+  bing-path: /bing/images/
+  bing-info-url: https://cn.bing.com/HPImageArchive.aspx
+
+qiniu:
+  access-key: ----------------------
+  secret-key: ---------------------
+  bucket-name: ---------

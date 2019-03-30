@@ -14,13 +14,13 @@ public class QiniuProperties {
     /**
      * 设置好账号的ACCESS_KEY和SECRET_KEY
      */
-    private String accessKey = "***************";
+    private String accessKey;
 
-    private String secretKey = "***********";
+    private String secretKey;
     /**
      * 要上传的空间
      */
-    private String bucketName = "***********";
+    private String bucketName;
 
     public String getAccessKey() {
         return accessKey;

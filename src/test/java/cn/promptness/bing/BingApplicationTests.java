@@ -1,9 +1,9 @@
 package cn.promptness.bing;
 
+import cn.promptness.bing.config.BingProperties;
 import cn.promptness.bing.pojo.ImageDO;
 import cn.promptness.bing.schedule.ImageSchedule;
 import cn.promptness.bing.service.ImageService;
-import cn.promptness.bing.utlis.ImageUtils;
 import cn.promptness.bing.vo.DataVO;
 import cn.promptness.bing.vo.ImageVO;
 import com.alibaba.fastjson.JSON;
@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,25 +29,23 @@ public class BingApplicationTests {
 
 
     @Autowired
-    private ImageUtils imageUtils;
-
-    @Autowired
     private ImageService imageService;
+    @Autowired
+    private ImageSchedule imageSchedule;
 
     @Autowired
-    ImageSchedule imageSchedule;
+    private BingProperties bingProperties;
 
     @Autowired
-    HttpClientUtil httpClientUtil;
+    private HttpClientUtil httpClientUtil;
 
     @Test
     public void contextLoads() throws Exception {
 
-        final String url = "https://cn.bing.com/HPImageArchive.aspx";
 
         for (int i = 0; i < 20; i++) {
 
-            HttpResult httpResultJson = httpClientUtil.doGet(url, ImmutableMap.of("format", "js", "idx", String.valueOf(i), "n", "7"));
+            HttpResult httpResultJson = httpClientUtil.doGet(bingProperties.getBingInfoUrl(), ImmutableMap.of("format", "js", "idx", String.valueOf(i), "n", "7"));
 
             if (httpResultJson.isFailed()) {
                 logger.error("请求获取json信息失败");
@@ -86,6 +82,13 @@ public class BingApplicationTests {
             }
         }
 
+
+    }
+
+    @Test
+    public void contextLoadsToady() throws Exception {
+
+        imageSchedule.keepImage();
 
     }
 

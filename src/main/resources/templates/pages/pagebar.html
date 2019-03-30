@@ -1,27 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="navigation">
     <ul class="pagination justify-content-center">
-        <li th:if="${pageInfo.pageNum == 1}" class="page-item disabled">
-            <span class="page-link">&laquo;首页</span>
-        </li>
-        <li th:if="${pageInfo.pageNum != 1}" class="page-item">
-            <a class="page-link" th:href="${targetUrl+1}">&laquo;首页</a>
-        </li>
+        <li th:if="${pageInfo.pageNum == 1}" class="page-item disabled"><span class="page-link">&laquo;首页</span></li>
+        <li th:if="${pageInfo.pageNum != 1}" class="page-item"><a class="page-link" th:href="${targetUrl+1}">&laquo;首页</a></li>
         <th:block th:each="navigatepageNum : ${pageInfo.navigatepageNums}">
-            <li th:if="${navigatepageNum!=pageInfo.pageNum }" class="page-item">
-                <a class="page-link" th:text="${navigatepageNum }" th:href="${targetUrl+navigatepageNum}"></a>
-            </li>
-            <li th:if="${navigatepageNum==pageInfo.pageNum }" class="page-item active">
-                <span class="page-link" th:text="${navigatepageNum }"></span>
-            </li>
+            <li th:if="${navigatepageNum!=pageInfo.pageNum }" class="page-item"><a class="page-link" th:text="${navigatepageNum }" th:href="${targetUrl+navigatepageNum}"></a></li>
+            <li th:if="${navigatepageNum==pageInfo.pageNum }" class="page-item active"><span class="page-link" th:text="${navigatepageNum }"></span></li>
         </th:block>
-        <li class="page-item" th:if="${pageInfo.pageNum != pageInfo.pages}">
-            <a class="page-link" th:href="${targetUrl+pageInfo.pages}">末页&raquo;</a>
-        </li>
-        <li th:if="${pageInfo.pageNum == pageInfo.pages}" class="page-item disabled">
-            <span class="page-link">末页&raquo;</span>
-        </li>
+        <li class="page-item" th:if="${pageInfo.pageNum != pageInfo.pages}"><a class="page-link" th:href="${targetUrl+pageInfo.pages}">末页&raquo;</a></li>
+        <li th:if="${pageInfo.pageNum == pageInfo.pages}" class="page-item disabled"><span class="page-link">末页&raquo;</span></li>
     </ul>
 </nav>
 </html>

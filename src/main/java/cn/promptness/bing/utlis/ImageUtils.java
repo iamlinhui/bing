@@ -1,5 +1,6 @@
 package cn.promptness.bing.utlis;
 
+import cn.promptness.bing.config.BingProperties;
 import cn.promptness.bing.vo.DataVO;
 import cn.promptness.bing.vo.ImageVO;
 import com.alibaba.fastjson.JSON;
@@ -32,7 +33,8 @@ public class ImageUtils {
     @Autowired
     private HttpClientUtil httpClientUtil;
 
-    private final static String PATH = "/bing/images/";
+    @Autowired
+    private BingProperties bingProperties;
 
     /**
      * 得到图片
@@ -40,8 +42,7 @@ public class ImageUtils {
     public File getFile() throws Exception {
 
         //找图片资源地址
-        final String url = "https://www.bing.com";
-        HttpResult httpResultHtml = httpClientUtil.doGet(url);
+        HttpResult httpResultHtml = httpClientUtil.doGet(bingProperties.getBingHost());
 
         if (httpResultHtml.isFailed()) {
             logger.error("请求必应官网失败");
@@ -55,9 +56,9 @@ public class ImageUtils {
             return null;
         }
 
-        File file = new File(PATH + getFileName());
+        File file = new File(bingProperties.getBingPath() + getFileName());
 
-        HttpResult httpResultImage = httpClientUtil.doGet(url + href, new FileOutputStream(file));
+        HttpResult httpResultImage = httpClientUtil.doGet(bingProperties.getBingHost() + href, new FileOutputStream(file));
         if (httpResultImage.isFailed()) {
             logger.error("下载图片失败");
             return null;
@@ -70,9 +71,7 @@ public class ImageUtils {
      */
     public ImageVO getFileInfo() throws Exception {
 
-        final String url = "https://cn.bing.com/HPImageArchive.aspx";
-
-        HttpResult httpResultJson = httpClientUtil.doGet(url, ImmutableMap.of("format", "js", "idx", "0", "n", "1"));
+        HttpResult httpResultJson = httpClientUtil.doGet(bingProperties.getBingInfoUrl(), ImmutableMap.of("format", "js", "idx", "0", "n", "1"));
 
         if (httpResultJson.isFailed()) {
             logger.error("请求获取json信息失败");

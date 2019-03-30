@@ -18,6 +18,8 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
 @RestControllerAdvice
+@EnableScheduling
+@EnableAsync
 public class BingApplication {
 
     public static void main(String[] args) {
@@ -56,9 +60,9 @@ public class BingApplication {
     /**
      * 拦截未知的运行时异常
      */
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<HttpResult> error(RuntimeException e) {
+    public ResponseEntity<HttpResult> error(Throwable e) {
         e.printStackTrace();
         return ResponseEntity.ok(HttpResult.getErrorHttpResult(e.getMessage()));
     }
