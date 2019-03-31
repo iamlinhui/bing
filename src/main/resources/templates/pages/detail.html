@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta th:replace="head :: head"/>
     <title th:text="${imageDO.info}"></title>
 </head>
 <body th:inline="text">
-    <div class="container-fluid">
+<div class="container-fluid">
     <div class="card text-white">
         <img class="card-img-top" th:title="${imageDO.info}" th:src="${application.imageHost + imageDO.name}" >
         <div class="card-img-overlay">

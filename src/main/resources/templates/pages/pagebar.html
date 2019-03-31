@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="navigation">
     <ul class="pagination justify-content-center">
         <li th:if="${pageInfo.pageNum == 1}" class="page-item disabled"><span class="page-link">&laquo;首页</span></li><li th:if="${pageInfo.pageNum != 1}" class="page-item"><a class="page-link" th:href="${targetUrl+1}">&laquo;首页</a></li>

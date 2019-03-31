@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta th:replace="head :: head"/>
     <title>必应高清壁纸 - 每天自动更新</title>
@@ -12,7 +12,7 @@
     </div>
     <div class="list-group">
         <div class="row">
-            <div class="card text-white col-sm-6 col-md-4" th:each="image : ${pageInfo.list}" th:data="${image.id}">
+            <div class="card text-white col-md-4" th:each="image : ${pageInfo.list}" th:data="${image.id}">
                 <img th:src="${application.imageHost+image.name+application.imageParam}" class="card-img">
                 <div class="card-img-overlay" style="display: none">
                     <p th:text="${image.info}" class="card-text"></p>
@@ -27,6 +27,6 @@
     </div>
 </div>
 </body>
-<script th:src="@{js/index.js}"></script>
-<link th:href="@{css/index.css}" rel="stylesheet"/>
+<script th:src="@{/js/index.js}"></script>
+<link th:href="@{/css/index.css}" rel="stylesheet"/>
 </html>
