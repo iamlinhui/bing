@@ -10,7 +10,7 @@
         <img class="card-img-top" th:title="${imageDO.info}" th:src="${application.imageHost + imageDO.name}" >
         <div class="card-img-overlay">
             <p class="card-text" th:text="${imageDO.info}"></p>
-            <a th:href="${application.imageHost + imageDO.name+'?attname=' + imageDO.name}" class="btn btn-sm btn-light">下载</a>
+            <a th:href="|${application.imageHost}${imageDO.name}?attname=${imageDO.name}|" class="btn btn-sm btn-light">下载</a>
         </div>
     </div>
 </div>
