@@ -1,8 +1,8 @@
 package cn.promptness.bing;
 
 import cn.promptness.bing.config.QiniuProperties;
-import com.promptness.core.HttpClientUtil;
-import com.promptness.core.HttpResult;
+import cn.promptness.core.HttpClientUtil;
+import cn.promptness.core.HttpResult;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
