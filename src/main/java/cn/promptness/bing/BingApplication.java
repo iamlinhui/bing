@@ -14,6 +14,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
+import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -27,7 +30,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
 @RestControllerAdvice
 @EnableScheduling
-public class BingApplication {
+public class BingApplication implements ErrorPageRegistrar {
 
     public static void main(String[] args) {
         SpringApplication.run(BingApplication.class, args);
@@ -86,5 +89,11 @@ public class BingApplication {
 
 
         return webServerFactory;
+    }
+
+    @Override
+    public void registerErrorPages(ErrorPageRegistry registry) {
+        ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/");
+        registry.addErrorPages(error404Page);
     }
 }

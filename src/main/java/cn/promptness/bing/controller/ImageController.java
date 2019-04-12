@@ -24,14 +24,14 @@ public class ImageController {
         return "index";
     }
 
-    @GetMapping(value = "/images/{pageNo}")
+    @GetMapping(value = "/images/{pageNo:[0-9]*}")
     public String pageForImage(@PathVariable Integer pageNo, Model model) {
         PageInfo<ImageDO> pageInfo = imageService.getImagesForPage(pageNo, 12, 5);
         model.addAttribute(pageInfo);
         return "index";
     }
 
-    @GetMapping(value = "/image/{id}")
+    @GetMapping(value = "/image/{id:[0-9]*}")
     public String infoImage(@PathVariable Integer id, Model model) {
         ImageDO image = imageService.getImageById(id);
         if (image == null) {
