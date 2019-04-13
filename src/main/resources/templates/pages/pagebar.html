@@ -2,12 +2,12 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="navigation">
     <ul class="pagination justify-content-center">
-        <li th:if="${pageInfo.pageNum eq 1}" class="page-item disabled"><span class="page-link">&laquo;首页</span></li><li th:if="${pageInfo.pageNum ne 1}" class="page-item"><a class="page-link" th:href="${targetUrl+1}">&laquo;首页</a></li>
+        <li th:if="${pageInfo.isFirstPage}" class="page-item disabled"><span class="page-link">&laquo;首页</span></li><li th:if="${not pageInfo.isFirstPage}" class="page-item"><a class="page-link" th:href="${targetUrl}">&laquo;首页</a></li>
         <th:block th:each="navigatepageNum : ${pageInfo.navigatepageNums}">
-        <li th:if="${navigatepageNum ne pageInfo.pageNum }" class="page-item"><a class="page-link" th:text="${navigatepageNum }" th:href="${targetUrl+navigatepageNum}"></a></li>
-        <li th:if="${navigatepageNum eq pageInfo.pageNum }" class="page-item active"><span class="page-link" th:text="${navigatepageNum }"></span></li>
+        <li th:if="${navigatepageNum ne pageInfo.pageNum}" class="page-item"><a class="page-link" th:text="${navigatepageNum}" th:href="${targetUrl+navigatepageNum}"></a></li>
+        <li th:if="${navigatepageNum eq pageInfo.pageNum}" class="page-item active"><span class="page-link" th:text="${navigatepageNum}"></span></li>
         </th:block>
-        <li class="page-item" th:if="${pageInfo.pageNum ne pageInfo.pages}"><a class="page-link" th:href="${targetUrl+pageInfo.pages}">末页&raquo;</a></li><li th:if="${pageInfo.pageNum eq pageInfo.pages}" class="page-item disabled"><span class="page-link">末页&raquo;</span></li>
+        <li class="page-item" th:if="${not pageInfo.isLastPage}"><a class="page-link" th:href="${targetUrl+pageInfo.pages}">末页&raquo;</a></li><li th:if="${pageInfo.isLastPage}" class="page-item disabled"><span class="page-link">末页&raquo;</span></li>
     </ul>
 </nav>
 </html>

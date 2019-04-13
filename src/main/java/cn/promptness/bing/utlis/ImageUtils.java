@@ -5,7 +5,6 @@ import cn.promptness.bing.vo.DataVO;
 import cn.promptness.bing.vo.ImageVO;
 import cn.promptness.core.HttpClientUtil;
 import cn.promptness.core.HttpResult;
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -78,9 +77,7 @@ public class ImageUtils {
             return null;
         }
 
-        String message = httpResultJson.getMessage();
-        DataVO dataVO = JSON.parseObject(message, DataVO.class);
-
+        DataVO dataVO = httpResultJson.getContent(DataVO.class);
         List<ImageVO> images = dataVO.getImages();
         if (images == null || images.isEmpty()) {
             logger.error("获取信息为空");

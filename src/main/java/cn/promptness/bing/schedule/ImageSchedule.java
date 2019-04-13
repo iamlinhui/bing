@@ -28,7 +28,7 @@ public class ImageSchedule {
     private QiniuUtils qiniuUtils;
 
 
-    @Scheduled(cron = "59 0 0 * * ?")
+    @Scheduled(cron = "3 0 0 * * ?")
     public void keepImage() throws Exception {
 
 

@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Optional;
+
 @Controller
 public class ImageController {
 
@@ -24,9 +26,9 @@ public class ImageController {
         return "index";
     }
 
-    @GetMapping(value = "/images/{pageNo:[0-9]*}")
-    public String pageForImage(@PathVariable Integer pageNo, Model model) {
-        PageInfo<ImageDO> pageInfo = imageService.getImagesForPage(pageNo, 12, 5);
+    @GetMapping(value = {"/images/{pageNo:[0-9]*}","/images"})
+    public String pageForImage(@PathVariable(required = false) Integer pageNo, Model model) {
+        PageInfo<ImageDO> pageInfo = imageService.getImagesForPage(Optional.ofNullable(pageNo).orElse(0), 12, 5);
         model.addAttribute(pageInfo);
         return "index";
     }
