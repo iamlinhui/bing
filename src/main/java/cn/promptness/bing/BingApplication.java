@@ -3,6 +3,7 @@ package cn.promptness.bing;
 import cn.promptness.bing.config.QiniuProperties;
 import cn.promptness.core.HttpClientUtil;
 import cn.promptness.core.HttpResult;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
 @RestControllerAdvice
 @EnableScheduling
+@EnableApolloConfig(value = {"bootstrap", "application"})
 public class BingApplication implements ErrorPageRegistrar {
 
     public static void main(String[] args) {

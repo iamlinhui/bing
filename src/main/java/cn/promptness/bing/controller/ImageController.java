@@ -26,7 +26,7 @@ public class ImageController {
         return "index";
     }
 
-    @GetMapping(value = {"/images/{pageNo:[0-9]*}","/images"})
+    @GetMapping(value = {"/images/{pageNo:[0-9]*}", "/images"})
     public String pageForImage(@PathVariable(required = false) Integer pageNo, Model model) {
         PageInfo<ImageDO> pageInfo = imageService.getImagesForPage(Optional.ofNullable(pageNo).orElse(0), 12, 5);
         model.addAttribute(pageInfo);
