@@ -8,6 +8,8 @@ import cn.promptness.bing.vo.ImageVO;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,7 @@ import java.util.Date;
 @JobHandler(value = "imageHandler")
 public class ImageHandler extends IJobHandler {
 
+    private Logger logger = LoggerFactory.getLogger(ImageHandler.class);
 
     @Autowired
     private ImageUtils imageUtils;
@@ -35,6 +38,7 @@ public class ImageHandler extends IJobHandler {
 
         boolean exist = imageService.isExist(new Date());
         if (exist) {
+            logger.info("数据已经存在!");
             return;
         }
 
