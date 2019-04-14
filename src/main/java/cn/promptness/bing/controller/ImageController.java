@@ -1,10 +1,12 @@
 package cn.promptness.bing.controller;
 
 
+import cn.promptness.bing.listener.BingEvent;
 import cn.promptness.bing.pojo.ImageDO;
 import cn.promptness.bing.service.ImageService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ public class ImageController {
 
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @GetMapping(value = {"/index.html", "/"})
     public String toIndex(Model model) {
@@ -39,6 +43,7 @@ public class ImageController {
         if (image == null) {
             return "redirect:/index.html";
         }
+        publisher.publishEvent(new BingEvent(image));
         model.addAttribute(image);
         return "detail";
     }
