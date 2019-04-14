@@ -1,6 +1,7 @@
 package cn.promptness.bing;
 
 import cn.promptness.bing.config.QiniuProperties;
+import cn.promptness.bing.config.XxlJobProperties;
 import cn.promptness.core.HttpClientUtil;
 import cn.promptness.core.HttpResult;
 import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
@@ -8,9 +9,11 @@ import com.qiniu.common.Zone;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,6 +31,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * @author Lynn
+ */
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
 @RestControllerAdvice
@@ -40,6 +46,8 @@ public class BingApplication implements ErrorPageRegistrar {
         SpringApplication.run(BingApplication.class, args);
     }
 
+    @Autowired
+    private XxlJobProperties xxlJobProperties;
 
     /**
      * 密钥配置
@@ -99,5 +107,19 @@ public class BingApplication implements ErrorPageRegistrar {
     public void registerErrorPages(ErrorPageRegistry registry) {
         ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/");
         registry.addErrorPages(error404Page);
+    }
+
+    @Bean(initMethod = "start", destroyMethod = "destroy")
+    public XxlJobSpringExecutor xxlJobExecutor() {
+        XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
+        xxlJobSpringExecutor.setAdminAddresses(xxlJobProperties.getAdminAddresses());
+        xxlJobSpringExecutor.setAppName(xxlJobProperties.getExecutorAppName());
+        xxlJobSpringExecutor.setIp(xxlJobProperties.getExecutorIp());
+        xxlJobSpringExecutor.setPort(xxlJobProperties.getExecutorPort());
+        xxlJobSpringExecutor.setAccessToken(xxlJobProperties.getAccessToken());
+        xxlJobSpringExecutor.setLogPath(xxlJobProperties.getExecutorLogPath());
+        xxlJobSpringExecutor.setLogRetentionDays(xxlJobProperties.getExecutorLogRetentionDays());
+
+        return xxlJobSpringExecutor;
     }
 }

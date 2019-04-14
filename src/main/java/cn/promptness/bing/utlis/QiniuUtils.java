@@ -1,7 +1,7 @@
 package cn.promptness.bing.utlis;
 
 import cn.promptness.bing.config.QiniuProperties;
-import cn.promptness.bing.schedule.ImageSchedule;
+import cn.promptness.bing.schedule.ImageHandler;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.UploadManager;
@@ -23,7 +23,7 @@ import java.util.Map;
 @Component
 public class QiniuUtils {
 
-    private Logger logger = LoggerFactory.getLogger(ImageSchedule.class);
+    private Logger logger = LoggerFactory.getLogger(ImageHandler.class);
 
     private static final Map<String, Object> CACHE_MAP = new HashMap<>();
 

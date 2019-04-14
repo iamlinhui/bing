@@ -5,8 +5,10 @@ import cn.promptness.bing.service.ImageService;
 import cn.promptness.bing.utlis.ImageUtils;
 import cn.promptness.bing.utlis.QiniuUtils;
 import cn.promptness.bing.vo.ImageVO;
+import com.xxl.job.core.biz.model.ReturnT;
+import com.xxl.job.core.handler.IJobHandler;
+import com.xxl.job.core.handler.annotation.JobHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -17,7 +19,8 @@ import java.util.Date;
  * @date : 2019-03-30 04:58
  */
 @Component
-public class ImageSchedule {
+@JobHandler(value = "imageHandler")
+public class ImageHandler extends IJobHandler {
 
 
     @Autowired
@@ -28,9 +31,7 @@ public class ImageSchedule {
     private QiniuUtils qiniuUtils;
 
 
-    @Scheduled(cron = "3 0 0 * * ?")
     public void keepImage() throws Exception {
-
 
         boolean exist = imageService.isExist(new Date());
         if (exist) {
@@ -63,4 +64,9 @@ public class ImageSchedule {
     }
 
 
+    @Override
+    public ReturnT<String> execute(String param) throws Exception {
+        keepImage();
+        return SUCCESS;
+    }
 }
