@@ -26,7 +26,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,7 +36,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
 @RestControllerAdvice
-@EnableScheduling
 @EnableAsync
 @EnableApolloConfig(value = {"bootstrap", "application"})
 public class BingApplication implements ErrorPageRegistrar {
