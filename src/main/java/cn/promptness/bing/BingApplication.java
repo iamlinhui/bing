@@ -3,7 +3,6 @@ package cn.promptness.bing;
 import cn.promptness.bing.config.QiniuProperties;
 import cn.promptness.bing.config.XxlJobProperties;
 import cn.promptness.core.HttpClientUtil;
-import cn.promptness.core.HttpResult;
 import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Configuration;
@@ -18,27 +17,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.ErrorPageRegistrar;
-import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @author Lynn
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
-@RestControllerAdvice
 @EnableAsync
 @EnableApolloConfig(value = {"bootstrap", "application"})
-public class BingApplication implements ErrorPageRegistrar {
+public class BingApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BingApplication.class, args);
@@ -68,15 +58,6 @@ public class BingApplication implements ErrorPageRegistrar {
         return new HttpClientUtil();
     }
 
-    /**
-     * 拦截未知的运行时异常
-     */
-    @ExceptionHandler(Throwable.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<HttpResult> error(Throwable e) {
-        e.printStackTrace();
-        return ResponseEntity.ok(HttpResult.getErrorHttpResult(e.getMessage()));
-    }
 
     @ConditionalOnProperty(name = "apr", havingValue = "true")
     @Bean
@@ -101,11 +82,6 @@ public class BingApplication implements ErrorPageRegistrar {
         return webServerFactory;
     }
 
-    @Override
-    public void registerErrorPages(ErrorPageRegistry registry) {
-        ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/");
-        registry.addErrorPages(error404Page);
-    }
 
     @Bean(initMethod = "start", destroyMethod = "destroy")
     public XxlJobSpringExecutor xxlJobExecutor() {
