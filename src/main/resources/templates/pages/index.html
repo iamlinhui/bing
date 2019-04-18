@@ -13,7 +13,7 @@
     <div class="list-group">
         <div class="row">
             <div class="card text-white col-md-4" th:each="image : ${pageInfo.list}" th:data="${image.id}">
-                <img th:src="|${application.imageHost}${image.name}${application.imageParam}|" class="card-img">
+                <img th:src="|${application.imageHost}${image.name}${application.imageParam}|" class="card-img"/>
                 <div class="card-img-overlay" style="display: none">
                     <p th:text="${image.info}" class="card-text"></p>
                 </div>

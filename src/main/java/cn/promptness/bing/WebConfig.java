@@ -1,29 +1,30 @@
 package cn.promptness.bing;
 
 import cn.promptness.core.HttpResult;
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.ErrorPageRegistrar;
-import org.springframework.boot.web.server.ErrorPageRegistry;
+import org.apache.catalina.core.AprLifecycleListener;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.web.servlet.ErrorPage;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
 /**
  * Web Config
- * 编写一个配置类（@Configuration），是WebMvcConfigurationSupport类型；不能标注@EnableWebMvc
  *
  * @author Lynn
  */
 @Configuration
-@EnableWebMvc
 @RestControllerAdvice
-public class WebConfig implements WebMvcConfigurer, ErrorPageRegistrar {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
 
     /**
@@ -36,11 +37,25 @@ public class WebConfig implements WebMvcConfigurer, ErrorPageRegistrar {
         return ResponseEntity.ok(HttpResult.getErrorHttpResult(e.getMessage()));
     }
 
-    @Override
-    public void registerErrorPages(ErrorPageRegistry registry) {
-        ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/");
-        registry.addErrorPages(error404Page);
+    @ConditionalOnProperty(name = "apr", havingValue = "true")
+    @Bean
+    public TomcatEmbeddedServletContainerFactory tomcatEmbeddedServletContainerFactory() {
+        TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+        AprLifecycleListener arpLifecycle = new AprLifecycleListener();
+        tomcat.setProtocol("org.apache.coyote.http11.Http11AprProtocol");
+        tomcat.addContextLifecycleListeners(arpLifecycle);
+        return tomcat;
     }
 
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return (new EmbeddedServletContainerCustomizer() {
+            @Override
+            public void customize(ConfigurableEmbeddedServletContainer container) {
+                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/");
+                container.addErrorPages(error404Page);
+            }
+        });
+    }
 
 }
