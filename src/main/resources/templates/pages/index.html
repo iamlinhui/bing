@@ -2,13 +2,14 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta th:replace="head :: head"/>
+    <script th:src="@{/js/index.js}"></script>
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
     <title>必应高清壁纸 - 每天自动更新</title>
 </head>
-<body th:inline="text">
+<body>
 <div class="container-fluid">
     <div class="page-header" style="padding: 15px">
-        <h1><a th:href="@{/}" style="text-decoration:none;color: #0C8484;"><span>必应壁纸</span></a>
-        </h1>
+        <h1><a th:href="@{/}" style="text-decoration:none;color: #0C8484;"><span>必应壁纸</span></a></h1>
     </div>
     <div class="list-group">
         <div class="row">
@@ -23,10 +24,8 @@
     <div th:with="targetUrl=@{/images/}" th:include="pagebar::navigation" style="padding-top: 15px"></div>
     <div style="text-align: center">
         <h5><span>本站点所有图片均来自<a style="text-decoration:none;" href="https://www.bing.com/">必应搜索</a></span></h5>
-        <h4><span style="font-style: oblique;font-family: 楷体,serif;"><a style="text-decoration:none;" href="#">林省之</a>Copyright &copy;2019</span></h4>
+        <h4><span style="font-style: oblique;font-family: 楷体,serif;"><a style="text-decoration:none;" href="https://github.com/iamlinhui/bing_boot">林省之</a>Copyright &copy;2019</span></h4>
     </div>
 </div>
 </body>
-<script th:src="@{/js/index.js}"></script>
-<link th:href="@{/css/index.css}" rel="stylesheet"/>
 </html>
