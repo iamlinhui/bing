@@ -1,4 +1,9 @@
 $(function () {
+    progressively.init({
+        delay: 50,
+        throttle: 300,
+        smBreakpoint: 600
+    });
     $(".card").click(function () {
         var data = $(this).attr("data");
         window.location.href = "/image/" + data;
