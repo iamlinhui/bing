@@ -3,7 +3,6 @@ package cn.promptness.bing;
 import cn.promptness.bing.config.QiniuProperties;
 import cn.promptness.bing.config.XxlJobProperties;
 import cn.promptness.core.HttpClientUtil;
-import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
@@ -19,7 +18,6 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
-@EnableApolloConfig(value = {"application", "bootstrap", "business"})
 public class BingApplication {
 
     public static void main(String[] args) {
