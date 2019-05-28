@@ -3,7 +3,9 @@ package cn.promptness.bing;
 import cn.promptness.bing.config.QiniuProperties;
 import cn.promptness.bing.config.XxlJobProperties;
 import cn.promptness.core.HttpClientUtil;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.qiniu.common.Zone;
+import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
@@ -12,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author Lynn
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
-@EnableAsync
+@EnableApolloConfig
 public class BingApplication {
 
     public static void main(String[] args) {
@@ -42,7 +43,7 @@ public class BingApplication {
      */
     @Bean
     public UploadManager uploadManager() {
-        return new UploadManager(new com.qiniu.storage.Configuration(Zone.autoZone()));
+        return new UploadManager(new Configuration(Zone.autoZone()));
     }
 
     @Bean
