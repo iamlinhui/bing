@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author Lynn
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.promptness.bing.dao"})
 @EnableApolloConfig
+@EnableAsync
 public class BingApplication {
 
     public static void main(String[] args) {
