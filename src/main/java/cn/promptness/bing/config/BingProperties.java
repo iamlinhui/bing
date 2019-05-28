@@ -13,7 +13,9 @@ public class BingProperties {
 
     private String imageHost;
 
-    private String imageParam;
+    private String imageHighParam;
+
+    private String imageLowParam;
 
     private String bingHost;
 
@@ -54,11 +56,19 @@ public class BingProperties {
         this.bingInfoUrl = bingInfoUrl;
     }
 
-    public String getImageParam() {
-        return imageParam;
+    public String getImageHighParam() {
+        return imageHighParam;
     }
 
-    public void setImageParam(String imageParam) {
-        this.imageParam = imageParam;
+    public void setImageHighParam(String imageHighParam) {
+        this.imageHighParam = imageHighParam;
+    }
+
+    public String getImageLowParam() {
+        return imageLowParam;
+    }
+
+    public void setImageLowParam(String imageLowParam) {
+        this.imageLowParam = imageLowParam;
     }
 }
