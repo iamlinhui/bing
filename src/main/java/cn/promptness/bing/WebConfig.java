@@ -2,6 +2,9 @@ package cn.promptness.bing;
 
 import cn.promptness.core.HttpResult;
 import org.apache.catalina.core.AprLifecycleListener;
+import org.apache.coyote.http11.Http11AprProtocol;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
@@ -26,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RestControllerAdvice
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    private final Logger logger = LoggerFactory.getLogger(WebConfig.class);
 
     /**
      * 拦截未知的运行时异常
@@ -33,7 +37,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<HttpResult> error(Throwable e) {
-        e.printStackTrace();
+        logger.error(e.getMessage(), e);
         return ResponseEntity.ok(HttpResult.getErrorHttpResult(e.getMessage()));
     }
 
@@ -41,9 +45,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public TomcatEmbeddedServletContainerFactory tomcatEmbeddedServletContainerFactory() {
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-        AprLifecycleListener arpLifecycle = new AprLifecycleListener();
-        tomcat.setProtocol("org.apache.coyote.http11.Http11AprProtocol");
-        tomcat.addContextLifecycleListeners(arpLifecycle);
+        tomcat.setProtocol(Http11AprProtocol.class.getName());
+        tomcat.addContextLifecycleListeners(new AprLifecycleListener());
         return tomcat;
     }
 

@@ -52,7 +52,7 @@ public class BingApplicationTests {
     public void contextLoads() throws Exception {
 
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
 
             HttpResult httpResultJson = httpClientUtil.doGet(bingProperties.getBingInfoUrl(), ImmutableMap.of("format", "js", "idx", String.valueOf(i), "n", "7"));
 
@@ -72,73 +72,28 @@ public class BingApplicationTests {
 
             for (ImageVO imageVO : images) {
 
-                String enddate = imageVO.getEnddate();
-                Date endDate = new SimpleDateFormat("yyyyMMdd").parse(enddate);
+                String endDateStr = imageVO.getEnddate();
+                Date endDate = new SimpleDateFormat("yyyyMMdd").parse(endDateStr);
 
                 boolean exist = imageService.isExist(endDate);
                 if (exist) {
-                    logger.info(enddate + "已经存在");
+                    logger.info(endDateStr + "已经存在");
                     continue;
                 }
 
-                ImageDO imageDO = new ImageDO();
-
-                imageDO.setInfo(imageVO.getCopyright());
-                imageDO.setName(new SimpleDateFormat("yyyy-MM-dd").format(endDate) + ".jpg");
-                imageService.saveImage(imageDO);
-
-
-            }
-        }
-
-
-    }
-
-    @Test
-    public void contextLoadsToady() throws Exception {
-
-        imageSchedule.keepImage();
-
-    }
-
-    @Test
-    public void getOther() throws Exception {
-
-        for (int i = 1; i < 95; i++) {
-
-            HttpResult httpResult = httpClientUtil.doGet("https://bing.ioliu.cn/", ImmutableMap.of("p", String.valueOf(i)));
-
-            Document document = Jsoup.parse(httpResult.getMessage());
-
-            Elements elements = document.getElementsByClass("item");
-
-            for (Element element : elements) {
-
-                String calendar = element.getElementsByClass("calendar").first().getElementsByTag("em").text();
-
-                Date parseDate = new SimpleDateFormat("yyyy-MM-dd").parse(calendar);
-
-                boolean exist = imageService.isExist(parseDate);
-                if (exist) {
-                    continue;
-                }
-
-                String url = element.getElementsByTag("img").attr("data-progressive");
-
-                String info = element.getElementsByTag("h3").text();
-
-
-                String fileName = calendar + ".jpg";
+                String urlbase = imageVO.getUrl();
+                String fileName = new SimpleDateFormat("yyyy-MM-dd").format(endDate) + ".jpg";
                 File file = new File(bingProperties.getBingPath() + fileName);
-                httpClientUtil.doGet(url, new FileOutputStream(file));
+                httpClientUtil.doGet(bingProperties.getBingHost()+urlbase, new FileOutputStream(file));
 
                 qiniuUtils.upload(file, fileName);
 
                 ImageDO imageDO = new ImageDO();
-                imageDO.setName(fileName);
-                imageDO.setInfo(info);
 
+                imageDO.setInfo(imageVO.getCopyright());
+                imageDO.setName(fileName);
                 imageService.saveImage(imageDO);
+
 
             }
         }
