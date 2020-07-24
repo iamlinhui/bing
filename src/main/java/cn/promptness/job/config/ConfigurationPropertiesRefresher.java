@@ -1,4 +1,4 @@
-package cn.promptness.bing.config;
+package cn.promptness.job.config;
 
 import com.ctrip.framework.apollo.model.ConfigChange;
 import com.ctrip.framework.apollo.model.ConfigChangeEvent;
@@ -27,7 +27,7 @@ public class ConfigurationPropertiesRefresher implements ApplicationContextAware
         this.applicationContext = applicationContext;
     }
 
-    @ApolloConfigChangeListener(value = {"application", "bootstrap", "business"})
+    @ApolloConfigChangeListener
     public void onChange(ConfigChangeEvent changeEvent) {
         for (String key : changeEvent.changedKeys()) {
             ConfigChange change = changeEvent.getChange(key);
